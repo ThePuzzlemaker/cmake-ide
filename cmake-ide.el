@@ -794,9 +794,9 @@ Return nil for non-CMake project."
     (when project-key
       (let ((build-dir (gethash project-key cide--cache-pkey-to-dir nil)))
         (or build-dir
-            (let ((build-parent-directory (or cmake-ide-build-pool-dir temporary-file-directory))
+            (let ((build-parent-directory (or cmake-ide-build-pool-dir (cide--locate-project-dir)))
                   (build-directory-name (if cmake-ide-build-pool-use-persistent-naming
-                                            project-key
+                                            "build"
                                           (make-temp-name "cmake"))))
               (setq build-dir (expand-file-name build-directory-name build-parent-directory))
               (progn

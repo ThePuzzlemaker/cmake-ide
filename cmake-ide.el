@@ -639,7 +639,10 @@ the object file's name just above."
   ;; FLAGS is a list of strings
   (when (buffer-live-p buffer)
     (with-current-buffer buffer
-
+      (when (featurep 'lsp-mode)
+	    (make-local-variable 'lsp-clients-clangd-args)
+	    (add-to-list 'lsp-clients-clangd-args (concat "--compile-commands-dir=" (cide--build-dir))))
+      
       (when (featurep 'auto-complete-clang)
         (make-local-variable 'ac-clang-flags)
         (setq ac-clang-flags (cide--filter-ac-flags (cide--get-compiler-flags flags))))
